@@ -1,0 +1,123 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<br /><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+   Add New
+</button>
+@Html.Partial("_Add")
+<button id="btnReload"  class="btn-sm btn-success"><span class="glyphicon glyphicon-record"></span> Reload</button>
+<table class="table table-striped" id="tblUser">
+    <caption id="loader">
+        <img src="~/Content/img/ajax-loader.gif" />
+
+    </caption>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Address</th>
+            <th>Email</th>
+            <th>Contact Number</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+<script> </script>
+<script>
+  
+    $(document).ready(function () {
+     
+        $("#loader").hide();
+        $("#btnReload").click(function () {
+            loadData();
+        });
+        $("#btnSave").click(function () {
+            debugger;
+            $.ajax({
+                url: 'Add',
+                type: 'Post',
+                data:$('#frmUser').serialize(),
+                success: function (res) {
+                    if (res === "True") {
+                        $.notify("success","Data added Successfully");
+                        $("#exampleModal").modal("hide");
+                        loadData();
+                    }
+                    else {
+                        $.notify("BOOM!", "error");
+                    }
+                },
+                error: function (res) {
+
+                }
+            });
+
+        });
+    });
+    function onDeleteClick(btn)
+    {
+        window.deleteBtn = btn;
+        bootbox.confirm("Are you sure want to delete?", function (res) {
+            debugger;
+        var id= parseInt(window.deleteBtn.parentNode.parentNode.children[0].innerHTML)
+            if(res)
+            {
+                $.ajax({
+                    url: 'Delete/'+id,
+                    type: 'GET',
+                    success: function (res) {
+                        if(res==="True")
+                        {
+                            $.notify("Data Deleted Successfully");
+                            window.deleteBtn.parentNode.parentNode.remove();
+                        }
+                        else
+                        {
+                            $.notify("BOOM!", "error");
+                        }
+                    },
+                    error: function (res) {
+
+                    }
+
+
+
+                });
+
+            }
+
+        })
+
+    }
+    function loadData()
+    {
+        $("#loader").show();
+        $('table tbody td').remove();
+        $.ajax({
+            url: 'GetAllUsers',
+            type: 'GET',
+            success: function (res) {
+                $("#loader").hide();
+            
+                $.each(res, function (i, data) {
+                    // var newFormattedDate = $.datepicker.formatDate('mm/dd/yy', new Date(Date(data.DOB)));
+                    var tr = "<tr><td>" + data.Id + "</td>" + "<td>" + data.First_Name + "</td>" + "</td>" + "<td>" + data.Last_Name + "</td><td>" + data.Address + "</td>" + "<td>" + data.Email + "</td><td>" + data.Contact_Number + "</td>" + "</tr>";
+                    //var tr = "<tr><td>".concat(data.Student_Name) + "</td>"+"<td>".concat(data.Address) + "</td>" + +"<td>"+data.Gender_Id+ "</td>" + + "<td>".concat(data.Caste_Ethnicity_Id) + "</td></tr>";
+                    //var tr = "<tr>"
+                    //    + "<td>" + "safal" + "</td" >
+                    //    +"</tr>";
+                
+                    $("table tbody").append(tr);
+                  
+                });
+                $('#tblUser').SetEditable();
+            },
+            error: function (res) {
+
+            }
+        });
+    }
+</script>

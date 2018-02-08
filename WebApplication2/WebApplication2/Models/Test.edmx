@@ -1,0 +1,480 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EventMgmtSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Employee_Info">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="First_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Middle_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Last_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="20" />
+          <Property Name="Contact_Number" Type="nvarchar" MaxLength="10" />
+          <Property Name="description" Type="varchar" MaxLength="500" />
+          <Property Name="status" Type="bit" />
+          <Property Name="created_by" Type="int" />
+          <Property Name="created_on" Type="datetime" />
+          <Property Name="updated_by" Type="int" />
+          <Property Name="updated_on" Type="datetime" />
+          <Property Name="deleted_by" Type="int" />
+          <Property Name="deleted_on" Type="datetime" />
+        </EntityType>
+        <EntityType Name="event_attendance_detail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Event_Id" Type="int" />
+          <Property Name="Employee_Id" Type="int" />
+          <Property Name="description" Type="varchar" MaxLength="500" />
+          <Property Name="status" Type="bit" />
+          <Property Name="created_by" Type="int" />
+          <Property Name="created_on" Type="datetime" />
+          <Property Name="updated_by" Type="int" />
+          <Property Name="updated_on" Type="datetime" />
+          <Property Name="deleted_by" Type="int" />
+          <Property Name="deleted_on" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Event_Info">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Start_Date" Type="date" />
+          <Property Name="EndDate" Type="date" />
+          <Property Name="Dutaion" Type="int" />
+          <Property Name="description" Type="varchar" MaxLength="500" />
+          <Property Name="status" Type="bit" />
+          <Property Name="created_by" Type="int" />
+          <Property Name="created_on" Type="datetime" />
+          <Property Name="updated_by" Type="int" />
+          <Property Name="updated_on" Type="datetime" />
+          <Property Name="deleted_by" Type="int" />
+          <Property Name="deleted_on" Type="datetime" />
+        </EntityType>
+        <EntityType Name="User_Info">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="First_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Middle_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Last_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="20" />
+          <Property Name="Contact_Number" Type="nvarchar" MaxLength="10" />
+          <Property Name="User_Type_Id" Type="int" />
+          <Property Name="description" Type="varchar" MaxLength="500" />
+          <Property Name="status" Type="bit" />
+          <Property Name="created_by" Type="int" />
+          <Property Name="created_on" Type="datetime" />
+          <Property Name="updated_by" Type="int" />
+          <Property Name="updated_on" Type="datetime" />
+          <Property Name="deleted_by" Type="int" />
+          <Property Name="deleted_on" Type="datetime" />
+          <Property Name="User_Name" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="20" />
+          <Property Name="Join_Date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="User_Type">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="description" Type="varchar" MaxLength="500" />
+          <Property Name="status" Type="bit" />
+          <Property Name="created_by" Type="int" />
+          <Property Name="created_on" Type="datetime" />
+          <Property Name="updated_by" Type="int" />
+          <Property Name="updated_on" Type="datetime" />
+          <Property Name="deleted_by" Type="int" />
+          <Property Name="deleted_on" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EventMgmtSystem.dbo.VersionInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VersionInfo">
+          <Key>
+            <PropertyRef Name="Version" />
+          </Key>
+          <Property Name="Version" Type="bigint" Nullable="false" />
+          <Property Name="AppliedOn" Type="datetime" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1024" />
+        </EntityType>
+        <Association Name="FK_event_attendance_detail_Employee_Id_Employee_Info_Id">
+          <End Role="Employee_Info" Type="Self.Employee_Info" Multiplicity="0..1" />
+          <End Role="event_attendance_detail" Type="Self.event_attendance_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee_Info">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="event_attendance_detail">
+              <PropertyRef Name="Employee_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_event_attendance_detail_Event_Id_Event_Info_Id">
+          <End Role="Event_Info" Type="Self.Event_Info" Multiplicity="0..1" />
+          <End Role="event_attendance_detail" Type="Self.event_attendance_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event_Info">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="event_attendance_detail">
+              <PropertyRef Name="Event_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Info_User_Type_Id_User_Type_Id">
+          <End Role="User_Type" Type="Self.User_Type" Multiplicity="0..1" />
+          <End Role="User_Info" Type="Self.User_Info" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User_Type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User_Info">
+              <PropertyRef Name="User_Type_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EventMgmtSystemModelStoreContainer">
+          <EntitySet Name="Employee_Info" EntityType="Self.Employee_Info" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="event_attendance_detail" EntityType="Self.event_attendance_detail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Event_Info" EntityType="Self.Event_Info" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User_Info" EntityType="Self.User_Info" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User_Type" EntityType="Self.User_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VersionInfo" EntityType="Self.VersionInfo" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VersionInfo].[Version] AS [Version], 
+    [VersionInfo].[AppliedOn] AS [AppliedOn], 
+    [VersionInfo].[Description] AS [Description]
+    FROM [dbo].[VersionInfo] AS [VersionInfo]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_event_attendance_detail_Employee_Id_Employee_Info_Id" Association="Self.FK_event_attendance_detail_Employee_Id_Employee_Info_Id">
+            <End Role="Employee_Info" EntitySet="Employee_Info" />
+            <End Role="event_attendance_detail" EntitySet="event_attendance_detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_event_attendance_detail_Event_Id_Event_Info_Id" Association="Self.FK_event_attendance_detail_Event_Id_Event_Info_Id">
+            <End Role="Event_Info" EntitySet="Event_Info" />
+            <End Role="event_attendance_detail" EntitySet="event_attendance_detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Info_User_Type_Id_User_Type_Id" Association="Self.FK_User_Info_User_Type_Id_User_Type_Id">
+            <End Role="User_Type" EntitySet="User_Type" />
+            <End Role="User_Info" EntitySet="User_Info" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EventMgmtSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Employee_Info">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="First_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Middle_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Last_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Contact_Number" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="Boolean" />
+          <Property Name="created_by" Type="Int32" />
+          <Property Name="created_on" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="Int32" />
+          <Property Name="updated_on" Type="DateTime" Precision="3" />
+          <Property Name="deleted_by" Type="Int32" />
+          <Property Name="deleted_on" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="event_attendance_detail" Relationship="Self.FK_event_attendance_detail_Employee_Id_Employee_Info_Id" FromRole="Employee_Info" ToRole="event_attendance_detail" />
+        </EntityType>
+        <EntityType Name="event_attendance_detail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Event_Id" Type="Int32" />
+          <Property Name="Employee_Id" Type="Int32" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="Boolean" />
+          <Property Name="created_by" Type="Int32" />
+          <Property Name="created_on" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="Int32" />
+          <Property Name="updated_on" Type="DateTime" Precision="3" />
+          <Property Name="deleted_by" Type="Int32" />
+          <Property Name="deleted_on" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Employee_Info" Relationship="Self.FK_event_attendance_detail_Employee_Id_Employee_Info_Id" FromRole="event_attendance_detail" ToRole="Employee_Info" />
+          <NavigationProperty Name="Event_Info" Relationship="Self.FK_event_attendance_detail_Event_Id_Event_Info_Id" FromRole="event_attendance_detail" ToRole="Event_Info" />
+        </EntityType>
+        <EntityType Name="Event_Info">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Start_Date" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="Dutaion" Type="Int32" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="Boolean" />
+          <Property Name="created_by" Type="Int32" />
+          <Property Name="created_on" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="Int32" />
+          <Property Name="updated_on" Type="DateTime" Precision="3" />
+          <Property Name="deleted_by" Type="Int32" />
+          <Property Name="deleted_on" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="event_attendance_detail" Relationship="Self.FK_event_attendance_detail_Event_Id_Event_Info_Id" FromRole="Event_Info" ToRole="event_attendance_detail" />
+        </EntityType>
+        <EntityType Name="User_Info">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="First_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Middle_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Last_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Contact_Number" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="User_Type_Id" Type="Int32" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="Boolean" />
+          <Property Name="created_by" Type="Int32" />
+          <Property Name="created_on" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="Int32" />
+          <Property Name="updated_on" Type="DateTime" Precision="3" />
+          <Property Name="deleted_by" Type="Int32" />
+          <Property Name="deleted_on" Type="DateTime" Precision="3" />
+          <Property Name="User_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Join_Date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User_Type" Relationship="Self.FK_User_Info_User_Type_Id_User_Type_Id" FromRole="User_Info" ToRole="User_Type" />
+        </EntityType>
+        <EntityType Name="User_Type">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="Boolean" />
+          <Property Name="created_by" Type="Int32" />
+          <Property Name="created_on" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="Int32" />
+          <Property Name="updated_on" Type="DateTime" Precision="3" />
+          <Property Name="deleted_by" Type="Int32" />
+          <Property Name="deleted_on" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User_Info" Relationship="Self.FK_User_Info_User_Type_Id_User_Type_Id" FromRole="User_Type" ToRole="User_Info" />
+        </EntityType>
+        <EntityType Name="VersionInfo">
+          <Key>
+            <PropertyRef Name="Version" />
+          </Key>
+          <Property Name="Version" Type="Int64" Nullable="false" />
+          <Property Name="AppliedOn" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_event_attendance_detail_Employee_Id_Employee_Info_Id">
+          <End Role="Employee_Info" Type="Self.Employee_Info" Multiplicity="0..1" />
+          <End Role="event_attendance_detail" Type="Self.event_attendance_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee_Info">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="event_attendance_detail">
+              <PropertyRef Name="Employee_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_event_attendance_detail_Event_Id_Event_Info_Id">
+          <End Role="Event_Info" Type="Self.Event_Info" Multiplicity="0..1" />
+          <End Role="event_attendance_detail" Type="Self.event_attendance_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event_Info">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="event_attendance_detail">
+              <PropertyRef Name="Event_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Info_User_Type_Id_User_Type_Id">
+          <End Role="User_Type" Type="Self.User_Type" Multiplicity="0..1" />
+          <End Role="User_Info" Type="Self.User_Info" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User_Type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User_Info">
+              <PropertyRef Name="User_Type_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EventMgmtSystemEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Employee_Info" EntityType="Self.Employee_Info" />
+          <EntitySet Name="event_attendance_detail" EntityType="Self.event_attendance_detail" />
+          <EntitySet Name="Event_Info" EntityType="Self.Event_Info" />
+          <EntitySet Name="User_Info" EntityType="Self.User_Info" />
+          <EntitySet Name="User_Type" EntityType="Self.User_Type" />
+          <EntitySet Name="VersionInfoes" EntityType="Self.VersionInfo" />
+          <AssociationSet Name="FK_event_attendance_detail_Employee_Id_Employee_Info_Id" Association="Self.FK_event_attendance_detail_Employee_Id_Employee_Info_Id">
+            <End Role="Employee_Info" EntitySet="Employee_Info" />
+            <End Role="event_attendance_detail" EntitySet="event_attendance_detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_event_attendance_detail_Event_Id_Event_Info_Id" Association="Self.FK_event_attendance_detail_Event_Id_Event_Info_Id">
+            <End Role="Event_Info" EntitySet="Event_Info" />
+            <End Role="event_attendance_detail" EntitySet="event_attendance_detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Info_User_Type_Id_User_Type_Id" Association="Self.FK_User_Info_User_Type_Id_User_Type_Id">
+            <End Role="User_Type" EntitySet="User_Type" />
+            <End Role="User_Info" EntitySet="User_Info" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EventMgmtSystemModelStoreContainer" CdmEntityContainer="EventMgmtSystemEntities">
+          <EntitySetMapping Name="Employee_Info">
+            <EntityTypeMapping TypeName="EventMgmtSystemModel.Employee_Info">
+              <MappingFragment StoreEntitySet="Employee_Info">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="First_Name" ColumnName="First_Name" />
+                <ScalarProperty Name="Middle_Name" ColumnName="Middle_Name" />
+                <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Contact_Number" ColumnName="Contact_Number" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_on" ColumnName="created_on" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_on" ColumnName="updated_on" />
+                <ScalarProperty Name="deleted_by" ColumnName="deleted_by" />
+                <ScalarProperty Name="deleted_on" ColumnName="deleted_on" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="event_attendance_detail">
+            <EntityTypeMapping TypeName="EventMgmtSystemModel.event_attendance_detail">
+              <MappingFragment StoreEntitySet="event_attendance_detail">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Event_Id" ColumnName="Event_Id" />
+                <ScalarProperty Name="Employee_Id" ColumnName="Employee_Id" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_on" ColumnName="created_on" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_on" ColumnName="updated_on" />
+                <ScalarProperty Name="deleted_by" ColumnName="deleted_by" />
+                <ScalarProperty Name="deleted_on" ColumnName="deleted_on" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Event_Info">
+            <EntityTypeMapping TypeName="EventMgmtSystemModel.Event_Info">
+              <MappingFragment StoreEntitySet="Event_Info">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Start_Date" ColumnName="Start_Date" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="Dutaion" ColumnName="Dutaion" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_on" ColumnName="created_on" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_on" ColumnName="updated_on" />
+                <ScalarProperty Name="deleted_by" ColumnName="deleted_by" />
+                <ScalarProperty Name="deleted_on" ColumnName="deleted_on" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_Info">
+            <EntityTypeMapping TypeName="EventMgmtSystemModel.User_Info">
+              <MappingFragment StoreEntitySet="User_Info">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="First_Name" ColumnName="First_Name" />
+                <ScalarProperty Name="Middle_Name" ColumnName="Middle_Name" />
+                <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Contact_Number" ColumnName="Contact_Number" />
+                <ScalarProperty Name="User_Type_Id" ColumnName="User_Type_Id" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_on" ColumnName="created_on" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_on" ColumnName="updated_on" />
+                <ScalarProperty Name="deleted_by" ColumnName="deleted_by" />
+                <ScalarProperty Name="deleted_on" ColumnName="deleted_on" />
+                <ScalarProperty Name="User_Name" ColumnName="User_Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Join_Date" ColumnName="Join_Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_Type">
+            <EntityTypeMapping TypeName="EventMgmtSystemModel.User_Type">
+              <MappingFragment StoreEntitySet="User_Type">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_on" ColumnName="created_on" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_on" ColumnName="updated_on" />
+                <ScalarProperty Name="deleted_by" ColumnName="deleted_by" />
+                <ScalarProperty Name="deleted_on" ColumnName="deleted_on" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VersionInfoes">
+            <EntityTypeMapping TypeName="EventMgmtSystemModel.VersionInfo">
+              <MappingFragment StoreEntitySet="VersionInfo">
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="AppliedOn" ColumnName="AppliedOn" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

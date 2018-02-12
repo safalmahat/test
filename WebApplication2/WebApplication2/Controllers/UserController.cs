@@ -11,7 +11,9 @@ namespace WebApplication2.Controllers
         // GET: User
         public ActionResult Index()
         {
-            return View();
+            EventMgmtSystemEntities ctx = new EventMgmtSystemEntities();
+            var data = ctx.User_Info.ToList();
+            return View(data);
         }
         public JsonResult  GetAllUsers()
         {

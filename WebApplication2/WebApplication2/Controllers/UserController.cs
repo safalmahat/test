@@ -4,10 +4,16 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication2.Models;
+using WebApplication2.Service;
 namespace WebApplication2.Controllers
 {
     public class UserController : Controller
     {
+        UserService _service;
+        public UserController()
+        {
+            _service = new Service.UserService();
+        }
         // GET: User
         public ActionResult Index()
         {
@@ -45,14 +51,14 @@ namespace WebApplication2.Controllers
         }
         public bool Add(User_Info data)
         {
-            using (EventMgmtSystemEntities ctx = new EventMgmtSystemEntities())
+            if(data !=null)
             {
-                ctx.User_Info.Add(data);
-                int result = ctx.SaveChanges();
-                if (result > 0)
-                    return true;
-                else
-                    return false;
+              return  _service.Add(data);
+
+            }
+            else
+            {
+                return false;
             }
         }
     }
